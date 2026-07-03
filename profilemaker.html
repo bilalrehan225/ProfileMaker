@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROFILE MAKER</title>
+    <style>
+        /* Smooth typography setup */
+        @import url('https://googleapis.com');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(41, 41, 41);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Fixed fixed-height navigation boundaries to allow responsive wrapping */
+        .bar {
+            background-color: rgb(26, 25, 25);
+            min-height: 4rem;
+            width: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        /* Modernized logo styling */
+        .heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: white;
+            font-size: 30px;
+            text-align: left;
+            padding-left: 2rem;
+            cursor: pointer;
+        }
+
+        .heading2 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 400;
+            opacity: 0.8;
+            color: white;
+            font-size: 16px;
+            padding-right: 2rem;
+        }
+
+        .home {
+            text-decoration: none;
+            color: white;
+        }
+
+        .aheading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: white;
+            font-size: 28px;
+            text-align: center;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        label {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            align-self: flex-start;
+        }
+
+        /* Screen 1 (Form Container) - Hidden right now */
+        .cont {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* Cleaned form wrapper and introduced responsive width tracking */
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 340px;
+        }
+
+        /* Refined elements layout for crisp edges */
+        input {
+            padding: 11px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            height: 46px;
+            font-size: 15px;
+            font-family: inherit;
+            background-color: white;
+            color: #1a1a1a;
+            outline: none;
+        }
+
+        input[type="file"] {
+            color: transparent;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        input[type="file"]::file-selector-button {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            color: black;
+            display: inline-block;
+            content: "Select Your Profile Picture";
+        }
+
+        /* Removes arrows for Chrome, Safari, Edge, and Opera */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Removes arrows for Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        /* Interactive fluid state animations */
+        input:hover {
+            background-color: rgb(245, 245, 245);
+            transform: translateY(-1px);
+            transition: 0.2s all ease-in-out;
+        }
+
+        .heading:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+            transition: 0.2s all ease-in-out;
+        }
+
+        button {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border: none;
+            background-color: rgb(35, 75, 250);
+            cursor: pointer;
+            color: white;
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            padding: 14px 20px;
+            border-radius: 8px;
+            width: 100%;
+            transition: 0.2s all ease-in-out;
+        }
+
+        button:hover {
+            background-color: rgb(20, 55, 220);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(35, 75, 250, 0.3);
+        }
+
+        /* NEW MODIFICATIONS ALLOWED FOR CONT2 AND ITS CHILD STYLES */
+        .cont2 {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        .pcont {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: calc(100vh - 4rem);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .pcard {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 28px;
+            padding: 35px;
+            width: 100%;
+            max-width: 500px;
+            background-color: #2e2e2e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .pcard:hover {
+            transform: translateY(-4px);
+        }
+
+        .imgcont {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ppic {
+            object-fit: cover;
+            border-radius: 50%;
+            /* Modern circular avatar look */
+            height: 110px;
+            width: 110px;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .profilename {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            color: white;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+
+        .usernames {
+            font-weight: 500;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Combined Mobile Responsive Media Queries */
+        @media (max-width: 600px) {
+            .bar {
+                flex-direction: column;
+                justify-content: center;
+                gap: 8px;
+                padding: 15px 0;
+                text-align: center;
+                min-height: auto;
+            }
+
+            .heading {
+                padding-left: 0;
+                font-size: 26px;
+            }
+
+            .heading2 {
+                padding-right: 0;
+                font-size: 14px;
+            }
+
+            .aheading {
+                font-size: 24px;
+                margin-top: 25px;
+            }
+
+            .form {
+                max-width: 100%;
+            }
+
+            /* Responsive Card View on Mobile Screens */
+            .pcont {
+                height: calc(100vh - 6.5rem);
+                /* Adjusts for stacked navbar height */
+            }
+
+            .pcard {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+                gap: 16px;
+                max-width: 320px;
+            }
+
+            .ppic {
+                height: 120px;
+                width: 120px;
+            }
+
+            .profilename {
+                font-size: 22px;
+            }
+
+            .info-item {
+                justify-content: center;
+                /* Center-align elements when layout stacks vertically */
+            }
+        }
+
+        /* Container to structure info layout beside or below your avatar pic */
+        .card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
+
+        /* Organized data layout structure */
+        .info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 500;
+        }
+
+        /* Responsive, sharp vector icon formatting rules */
+        .info-icon {
+            width: 18px;
+            height: 18px;
+            color: rgb(255, 255, 255);
+            /* Matches theme brand accent color */
+            flex-shrink: 0;
+        }
+
+        /* Elegant custom formatting for address-missing alert states */
+        .address-placeholder {
+            font-style: italic;
+            opacity: 0.55;
+            font-size: 13px;
+        }
+
+        .namess {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 24px;
+            color: white;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Screen 1: Details Entry Form -->
+    <div class="cont">
+        <div class="bar">
+            <a href="profilemaker.html" class="home">
+                <div class="heading">PROFILE MaKER</div>
+            </a>
+            <div class="heading2">Make Your Own PROFile !</div>
+        </div>
+        <div class="main">
+            <div class="aheading">Enter Details</div>
+            <div class="form">
+                <label for="fname" class="fname">ENTER NAME:</label>
+                <input type="text" name="fname" id="nameofuser">
+
+                <label for="lname" class="lname">ENTER USERNAME:</label>
+                <input type="text" name="lname" id="usernameofuser">
+
+                <label for="pic" class="pic">UPLOAD PICTURE:</label>
+                <input type="file" name="pic" id="pic" accept="image/*">
+
+                <label for="contact" class="contact">ADD CONTACT:</label>
+                <input type="number" name="contact" id="contact">
+
+                <button class="submit">CONTINUE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 2: Rendered Profile Card Display -->
+    <div class="cont2">
+        <div class="bar">
+            <a href="profilemaker.html" class="home">
+                <div class="heading">PROFILE MaKER</div>
+            </a>
+            <div class="heading2">Your PROFile -- made by Profile MAker</div>
+        </div>
+        <div class="pcont">
+            <div class="pcard">
+                <div class="imgcont"><img src="testimg.jfif" alt="YourProfilePic" class="ppic"></div>
+                <div class="card-details">
+                    <div class="profilename">
+                        <div class="namess">KINGS MBR</div>
+                        <div class="usernames">@MBR IS CHOCO</div>
+                    </div>
+
+                    <!-- Added Responsive Info Grid for Contact and Location Icons -->
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <!-- Responsive Contact Phone SVG Logo -->
+                            <svg class="info-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                                <path
+                                    d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                            </svg>
+                            <span class="contact-text">+92 300 1234567</span>
+                        </div>
+
+                        <div class="info-item">
+                            <!-- Responsive Address Map Pin SVG Logo -->
+                            <svg class="info-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            <span class="address-placeholder">Not Added</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Section  -->
+    <script>
+        let cont = document.querySelector(".cont");
+        let cont2 = document.querySelector(".cont2");
+        let idname = document.getElementById("nameofuser");
+        let username = document.getElementById("usernameofuser");
+        let contact = document.getElementById("contact");
+        let fileInput = document.getElementById("pic");
+        let submit = document.querySelector(".submit")
+        let contacttext = document.querySelector(".contact-text");
+        let usernametext = document.querySelector(".usernames")
+        let idnametext = document.querySelector(".namess");
+        let ppic = document.querySelector(".ppic");
+        // variable assignment 
+        var aname = "";
+        var bname = "";
+        var phnum = 1;
+        var aOK = false;
+        var bOK = false;
+        var pOK = false;
+        var iOK = false;
+
+        submit.onclick = function () {
+            // Proper Name Check With All Symbol and Errors 
+            aname = idname.value;
+            if (aname === "") {
+                alert("You Forget To Add Your Name")
+            }
+            else if (aname.includes("@")) {
+                alert("Invalid Format ! names can't include symbol '@'")
+            }
+            else if (aname.includes("!")) {
+                alert("Invalid Format ! names can't include symbol '!'")
+            }
+            else {
+                aOK = true;
+            }
+            // Proper UserName Check With All Symbol and Errors 
+            bname = username.value;
+            if (bname === "") {
+                alert("Username Cannot be Blank!")
+            }
+            else if (bname.includes(" ")) {
+                alert("Username Cannot have Space or Dashes !")
+            }
+            else if (bname.includes("!")) {
+                alert("Username Cannot have Symbol '!'")
+            }
+            else if (bname.includes("-")) {
+                alert("Username Cannot have Space or Dashes !")
+            }
+            else if (bname.includes("_")) {
+                alert("Username Cannot have Space or Dashes !")
+            }
+            else {
+                bOK = true;
+            }
+            // Proper Safe Check For Contact Number
+            phnum = contact.value;
+            if (phnum.toString().length != 11) {
+                alert("Contact must be of 11 letters !!!")
+            }
+            else {
+                pOK = true;
+            }
+            // Proper Safe Check For ProfilePicture
+
+            // 1. CHOOSE PICTURE CHECK
+            const file = fileInput.files[0]; // Look at the uploaded file
+
+            if (!file) {
+                alert("Please upload a profile picture first !!!");
+                return; // Stop the code here
+            }
+
+            // Verify if the file type doesn't contain 'image/'
+            if (!file.type.startsWith('image/')) {
+                alert("Only picture formats (PNG, JPEG, JFIF) are allowed !!!");
+                fileInput.value = ''; // Reset the wrong file selection
+                return; // Stop the code here
+            }
+
+            // Strict extension / format check (PNG, JPEG, JPG, JFIF)
+            const allowedExtensions = ['png', 'jpg', 'jpeg', 'jfif'];
+            // Extract the extension from the filename (e.g., "avatar.jfif" -> "jfif")
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert("Incorrect file format! Only .png, .jpg, .jpeg, and .jfif files are supported.");
+                fileInput.value = ''; // Reset the wrong file selection
+                return; // Stop the code here
+            }
+            else if (allowedExtensions.includes(fileExtension)) {
+                iOK = true;
+                // 3. IMAGE SHIFT LOGIC (The new code)
+                const reader = new FileReader();
+
+                reader.onload = function (event) {
+                    // Update profile card image
+                    ppic.src = event.target.result;
+
+                    // Screen Toggle
+                    document.querySelector('.cont').style.display = 'none';
+                    document.querySelector('.cont2').style.display = 'flex';
+                };
+
+                reader.readAsDataURL(file);
+            }
+
+
+            if (
+                aOK == true & bOK == true & pOK == true & iOK == true) {
+                cont.style.display = "none";
+                cont2.style.display = "flex";
+                contacttext.textContent = phnum;
+                usernametext.textContent = bname;
+                idnametext.textContent = aname;
+
+            }
+
+        }
+    </script>
+</body>
+
+</html>
+
+</body>
+
+</html>
